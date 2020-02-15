@@ -5,187 +5,81 @@ package rocks.zipcodewilmington.tictactoe;
  */
 public class Board {
 
-    public Character[][] board;
+
+    public char topLeft;
+    public char topMid;
+    public char topRight;
+    public char midLeft;
+    public char midMid;
+    public char midRight;
+    public char botLeft;
+    public char botMid;
+    public char botRight;
+    public static String winner;
 
     public Board(Character[][] matrix) {
-        board = matrix;
+        topLeft = matrix[0][0];
+        topMid = matrix[0][1];
+        topRight = matrix[0][2];
+        midLeft = matrix[1][0];
+        midMid = matrix[1][1];
+        midRight = matrix[1][2];
+        botLeft = matrix[2][0];
+        botMid = matrix[2][1];
+        botRight = matrix[2][2];
+        winner = "";
     }
 
     public Boolean isInFavorOfX() {
-        boolean xFavored = false;
-        char[] middleDiagonal = new char[5];
-        int diagonalCounter = 0;
-        int xCounter = 0;
 
-        for(int i = 0; i < board.length; i++) {
-            for (int k = 0; k < board.length; k++) {
-                if (board[i][k] == 'X') {
-                    xCounter++;
-                }
-                if((i == 0 && k == 0) || (i == 0 && k == 2) ||
-                        (i == 1 && k == 1) || (i == 2 && k == 0) ||
-                        (i == 2 && k == 2)) {
-                    middleDiagonal[diagonalCounter] = board[i][k];
-                    diagonalCounter++;
-                }
-            }
-            if(xCounter == 3){
-                xFavored = true;
-            }
-            xCounter = 0;
+        if(topLeft == 'X' && topMid == 'X' && topRight == 'X' ||
+                midLeft == 'X' && midMid == 'X' && midRight == 'X' ||
+                botLeft == 'X' && botMid == 'X' && botRight == 'X' ||
+                topLeft == 'X' && midLeft == 'X' && botLeft == 'X' ||
+                topMid == 'X' && midMid == 'X' && botMid == 'X' ||
+                topRight == 'X' && midRight == 'X' && botRight == 'X' ||
+                topLeft == 'X' && midMid == 'X' && botRight == 'X' ||
+                topRight == 'X' && midMid == 'X' && botLeft == 'X'){
+            return true;
+        }else {
+            return false;
         }
 
-        xCounter = 0;
-
-        for(int k = 0; k < board.length; k++) {
-            for (int i = 0; i < board.length; i++) {
-                if (board[i][k] == 'X') {
-                    xCounter++;
-                }
-            }
-            if (xCounter == 3) {
-                xFavored = true;
-            }
-            xCounter = 0;
-        }
-
-        if(middleDiagonal[0] == 'X' &&
-                middleDiagonal[2] == 'X' &&
-                middleDiagonal[4] == 'X'){
-            xFavored = true;
-        }else if(middleDiagonal[1] == 'X' &&
-                middleDiagonal[2] == 'X' &&
-                middleDiagonal[3] == 'X'){
-            xFavored = true;
-        }
-
-        return xFavored;
     }
 
     public Boolean isInFavorOfO() {
 
-        boolean oFavored = false;
-        char[] middleDiagonal = new char[5];
-        int diagonalCounter = 0;
-        int oCounter = 0;
-
-        for(int i = 0; i < board.length; i++) {
-            for (int k = 0; k < board.length; k++) {
-                if (board[i][k] == 'O') {
-                    oCounter++;
-                }
-                if((i == 0 && k == 0) || (i == 0 && k == 2) ||
-                        (i == 1 && k == 1) || (i == 2 && k == 0) ||
-                        (i == 2 && k == 2)) {
-                    middleDiagonal[diagonalCounter] = board[i][k];
-                    diagonalCounter++;
-                }
-            }
-            if(oCounter == 3){
-                oFavored = true;
-            }
-            oCounter = 0;
+        if(topLeft == 'O' && topMid == 'O' && topRight == 'O' ||
+                midLeft == 'O' && midMid == 'O' && midRight == 'O' ||
+                botLeft == 'O' && botMid == 'O' && botRight == 'O' ||
+                topLeft == 'O' && midLeft == 'O' && botLeft == 'O' ||
+                topMid == 'O' && midMid == 'O' && botMid == 'O' ||
+                topRight == 'O' && midRight == 'O' && botRight == 'O' ||
+                topLeft == 'O' && midMid == 'O' && botRight == 'O' ||
+                topRight == 'O' && midMid == 'O' && botLeft == 'O'){
+            return true;
+        }else {
+            return false;
         }
-
-        oCounter = 0;
-
-        for(int k = 0; k < board.length; k++){
-            for(int i = 0; i < board.length; i++){
-                if(board[i][k] == 'O'){
-                    oCounter++;
-                }
-            }
-            if(oCounter == 3){
-                oFavored = true;
-            }
-            oCounter = 0;
-        }
-
-        if(middleDiagonal[0] == 'O' &&
-                middleDiagonal[2] == 'O' &&
-                middleDiagonal[4] == 'O'){
-            oFavored = true;
-        }else if(middleDiagonal[1] == 'O' &&
-                middleDiagonal[2] == 'O' &&
-                middleDiagonal[3] == 'O'){
-            oFavored = true;
-        }
-
-        return oFavored;
     }
 
     public Boolean isTie() {
         String winner = getWinner();
-        if(winner.equals("O") || winner.equals("X")){
-            return false;
-        }else {
+        if(winner == ""){
             return true;
+        }else {
+            return false;
         }
     }
 
     public String getWinner() {
 
-        String winner = "";
-
-        if(isInFavorOfO()){
+        if (isInFavorOfO()) {
             winner = "O";
-        }else if (isInFavorOfX()){
+        } else if (isInFavorOfX()) {
             winner = "X";
         }
 
         return winner;
     }
-
-    public int oRowAmount(Character[] row){
-
-        int oCounter = 0;
-
-        for(int i = 0; i < row.length; i++){
-            if(row[i] == ')'){
-                oCounter++;
-            }
-        }
-
-        return oCounter;
-    }
-
-    public int oColumnAmount(Character[] column) {
-
-        int oCounter = 0;
-
-        for (int i = 0; i < column.length; i++) {
-            if (column[i] == 'O') {
-                oCounter++;
-            }
-        }
-
-        return oCounter;
-    }
-
-    public int xRowAmount(Character[] row){
-
-        int xCounter = 0;
-
-        for(int i = 0; i < row.length; i++){
-            if(row[i] == 'X'){
-                xCounter++;
-            }
-        }
-
-        return xCounter;
-    }
-
-    public int xColumnAmount(Character[] column) {
-
-        int xCounter = 0;
-
-        for (int i = 0; i < column.length; i++) {
-            if (column[i] == 'X') {
-                xCounter++;
-            }
-        }
-
-        return xCounter;
-    }
-
 }
